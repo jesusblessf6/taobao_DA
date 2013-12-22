@@ -30,9 +30,18 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+var myRouter = require('./routes/myRouter');
+myRouter(app);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+//init the web socket
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+server.listen(app.get('port'), function(){
+  	console.log('Express server listening on port ' + app.get('port'));
 });
+
+//handle the socket event
+var listener = require('./routes/socketListener');
+listener(io);
+
+
