@@ -33,7 +33,7 @@ module.exports = function(io){
 					});
 				}
 
-			], function(err){
+			], function(err){ // end. send message to inform the monitor
 				if(err){
 					console.log(err);
 				}
