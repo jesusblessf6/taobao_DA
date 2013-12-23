@@ -1,14 +1,34 @@
 <% include header.ejs %>
 
 <script type="text/javascript">
+	<!-- websocket handlers -->
 	var socket = io.connect('http://<%= server%>:<%= port%>');
 
-	socket.on('connect', function(){
-		addLog('connected' );
+	socket.on('connected', function(data){
+		if(data.status == 'ok'){
+			addLog('server connected');	
+		}
 	});
 
-	function startGloabalCrawler(){
+	socket.on('crawler running status', function(data){
+		if(data.status == "starting"){
+			$('#startGlobalCrawler').html('运行中');
+		}
 
+		if(data.status == "finished"){
+			$('#startGlobalCrawler').html('启动');
+			$('#startGlobalCrawler').prop('disabled', false);
+		}
+	});
+
+
+</script>
+
+<script type="text/javascript">
+	<!-- other methods -->
+	function startGlobalCrawler(){
+		socket.emit('start global crawler', {schedule : 'immediately'});
+		$('#startGlobalCrawler').prop('disabled', true);
 	}
 
 	function addLog(l){
@@ -23,9 +43,9 @@
 	<div class="col-md-4">
 		<div>
 			<table class="table table-condensed table-striped table-hover">
-				<tr>
+				<tr class="success">
 					<td style="width:80%; font-size:18px;vertical-align:middle">Global Crawler</td>
-					<td style="width:20%" class="text-right"><button class="btn btn-link" id="startGlobalCrawler" click="startGloabalCrawler">启动</button></td>
+					<td style="width:20%" class="text-right"><button class="btn btn-link" id="startGlobalCrawler" onclick="startGlobalCrawler()">启动</button></td>
 				</tr>
 			</table>
 		</div>
