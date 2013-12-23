@@ -11,14 +11,19 @@ exports.start = function(outercallback){
 	async.series([
 
 		function(callback){
-			driver.get(settings.brandListPageUrl);
+			driver.get(settings.brandListPageUrl)
+				.then(function(){
+					driver.findElement({className : 'J_chooseSelect'}).click();
+
+				});
+			callback();
+		},
+
+		function(callback){
+			driver.close();
 			driver.quit();
 			callback();
 		}
-
-		// function(callback){
-
-		// }
 
 	], function(err){
 		if(err){
