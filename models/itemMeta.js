@@ -5,6 +5,7 @@ function ItemMeta(itemMeta){
 	this.brandTid = itemMeta.brandTid;
 	this.tid = itemMeta.tid;
 	this.comments = itemMeta.comments;
+	this.url = itemMeta.url;
 };
 
 module.exports = ItemMeta;
@@ -15,7 +16,8 @@ ItemMeta.prototype.save = function(callback){
 		name : this.name,
 		brandTid : this.brandTid,
 		tid : this.tid,
-		comments : this.comments
+		comments : this.comments,
+		url : this.url
 	};
 
 	var itemMetaCol = conn.collection('itemMetas');
