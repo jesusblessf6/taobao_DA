@@ -1,6 +1,7 @@
 
 
 exports.start = function(outercallback){
+
 	var settings = require('./crawler_settings');
 	var webdriver = require('selenium-webdriver');
 	var async = require('async');
@@ -9,29 +10,45 @@ exports.start = function(outercallback){
 			   	withCapabilities(webdriver.Capabilities.chrome()).
 			   	build();
 
-	driver.get(settings.brandListPageUrl);
-	driver.findElement({id : '_data_brand_json'}).getInnerHtml().then(function(t){
-		var brands = JSON.parse(t);
-		console.log(t);
-		for(var x in brands){
-			var cats = brands[x].data;
-			console.log(cats);
-			for(var y in cats){
-				var b = new Brand({
-					tid : cats[y].id,
-					name : cats[y].name
-				});
-				console.log(b);
+	async.series([
 
-				b.save(function(err, result){
-					if(err){
-						console.log(err);
+		function(callback){
+			driver.get(settings.brandListPageUrl);
+			driver.findElement({id : '_data_brand_json'}).getInnerHtml().then(function(t){
+				var brands = JSON.parse(t);
+				//console.log(t);
+				for(var x in brands){
+					var cats = brands[x].data;
+					console.log(cats);
+					for(var y in cats){
+
+						var b = new Brand({
+							tid : cats[y].id,
+							name : cats[y].name
+						});
+
+						b.save(function(err, result){
+							if(err){
+								console.log(err);
+							}
+							else{
+								console.log('brand saved successfully');
+							}
+						});
 					}
-					else{
-						console.log('brand saved successfully');
-					}
-				});
-			}
+				}
+			}).then(callback);
+		}, 
+
+		function(callback){
+			driver.close();
+			driver.quit();
+			callback();
 		}
+
+	], function(err){
+		outercallback();
 	});
+
+	
 };

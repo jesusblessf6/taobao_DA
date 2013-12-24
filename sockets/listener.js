@@ -8,6 +8,8 @@ module.exports = function(io){
 
 	var brandCrawler = require('../crawlers/brandCrawler');
 	var async = require('async');
+	var Brand = require('../models/brand');
+	var brandDetailCrawler = require('../crawlers/brandDetailCrawler');
 
 	io.sockets.on('connection', function (socket) {
 
@@ -25,11 +27,27 @@ module.exports = function(io){
 					callback();
 				},
 
-				//start the crawler
+				//start the brand crawler
 				function(callback){
-					brandCrawler.start(function(){
-						
-						callback();
+					brandCrawler.start(callback);
+				},
+
+				//trverse the brands
+				function(callback){
+					Brand.getAll(function(err, results){
+						if(err){
+							console.log(err);
+						}
+
+						async.eachLimit(results, 1, function(result, callback){
+							brandDetailCrawler.start(result, callback);
+							
+						}, function(err){
+							if(err){
+								console.log(err);
+							}
+							callback();
+						});
 					});
 				},
 

@@ -27,8 +27,7 @@ Brand.prototype.save = function(callback){
 				}
 			})
 		}
-		else
-		{
+		else{
 			conn.collection('brands').insert(brand, function(err, result){
 				if(err){
 					return callback(err);
@@ -39,9 +38,6 @@ Brand.prototype.save = function(callback){
 			});
 		}
 	});
-
-
-	
 };
 
 Brand.getByTid = function(tid, callback){
@@ -50,6 +46,16 @@ Brand.getByTid = function(tid, callback){
 			callback(err);
 		}else{
 			callback(null, result);
+		}
+	});
+};
+
+Brand.getAll = function(callback){
+	conn.collection('brands').find().toArray(function(err, results){
+		if(err){
+			return callback(err);
+		}else if(results){
+			callback(null, results);
 		}
 	});
 };
