@@ -31,13 +31,17 @@ module.exports = function(io){
 						
 						callback();
 					});
+				},
+
+				function(callback){
+					socket.emit('crawler running status', {status : 'finished'});
+					callback();
 				}
 
 			], function(err){ // end. send message to inform the monitor
 				if(err){
 					console.log(err);
 				}
-				socket.emit('crawler running status', {status : 'finished'});
 			});
 			
 			
