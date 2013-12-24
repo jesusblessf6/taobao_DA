@@ -1,4 +1,4 @@
-<% include header.ejs %>
+<% include header.html %>
 
 <script type="text/javascript">
 	<!-- websocket handlers -->
@@ -32,7 +32,11 @@
 	}
 
 	function addLog(l){
-		$('#logPlace').val(l + "\n\r" + $('#logPlace').val());
+		$('#logPlace').val(l + "\n" + $('#logPlace').val());
+	}
+
+	function clearLog(){
+		$('#logPlace').val("");
 	}
 </script>
 
@@ -52,8 +56,8 @@
 	</div>
 	<div class="col-md-8 text-center" style="margin:0; padding: 0">
 		<textarea disabled="disabled" cols="120" rows="22" style="max-width:800px;" id="logPlace"></textarea>
-		<button class="btn btn-primary" style="margin-top:10px">清除</button>
+		<button class="btn btn-primary" style="margin-top:10px" onclick="clearLog()">清除</button>
 	</div>
 </div>
 
-<% include footer.ejs %>
+<% include footer.html %>

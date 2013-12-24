@@ -16,31 +16,82 @@ exports.start = function(brand, outercallback){
 				driver.findElement({className : 'choices-item'}).then(function(itemPanel){
 					itemPanel.findElements({tagName : 'li'}).then(function(thumbs){
 
-						aysnc.eachLimit(thumbs, 2, 
+						async.eachLimit(thumbs, 2, 
 							function(thumb, callback){
 								
-								var brandDetail = {
-									brandTid : brand.tid
-								};
+								var im = new ItemMeta({
+									brandTid : brand.tid,
+									comments : []
+								});
+								console.log('im: ');
+								console.log(im);
 
-								thumb.findElement({className : 'title'}).findElement({tagName : 'a'})
-									.then(function(atag){
-										brandDetail.url = atag.getAttribute('href');
-										//var spuid;
-										var linkParts = link.split('&');
+								async.series([
+									function(callback){
+										thumb.findElement({className : 'title'}).then(function(titleDiv){
+											titleDiv.findElement({tagName : 'a'}).then(function(atag){
+												
+												atag.getAttribute('href').then(function(href){
+													im.url = href;
+													console.log(href);
+												});
+
+												atag.getText().then(function(t){
+													im.name = t;
+												});
+											}).then(callback);
+										});
+									},
+
+									function(callback){
+										var linkParts = im.url.split('&');
 										for(var i = 0; i < linkParts.length; i ++){
 											var kvpair = linkParts[i].split('=');
 											if(kvpair[0] == "spuid"){
-												brandDetail.tid = kvpair[1];
+												im.tid = kvpair[1];
 												break;
 											}else{
 												continue;
 											}
 										}
-										brandDetail.name = atag.getText();
+										callback();
+									},
 
-									})
-									.then(callback);
+									function(callback){
+										thumb.isElementPresent({className : 'comments'}).then(function(present){
+											if(present){
+												thumb.findElement({className : 'comments'}).then(function(commentsDiv){
+													commentsDiv.findElements({tagName : 'a'}).then(function(commentTags){
+
+														for(var x in commentTags){
+															commentTags[x].getInnerHtml().then(function(commentText){
+																im.comments.push(commentText);
+															});
+														}
+													});
+												});												
+											}
+										}).then(callback);
+									}, 
+
+									function(callback){
+										//var itemmeta = new ItemMeta(im);
+										im.save(function(err, result){
+											if(err){
+												console.log(err);
+											}
+
+											callback();
+										});
+									}
+
+								], function(err){
+									if(err){
+										console.log(err);
+									}
+									callback();
+								});
+
 							}, 
 							function(err){
 								if(err){
@@ -55,7 +106,9 @@ exports.start = function(brand, outercallback){
 		},
 
 		function(callback){
-			
+			driver.close();
+			driver.quit();
+			callback();
 		}
 
 	], function(err){

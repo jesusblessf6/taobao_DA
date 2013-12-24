@@ -19,7 +19,7 @@ module.exports = function(io){
 		//start the global crawler
 		socket.on('start global crawler', function(data){
 
-			async.series([
+			async.series([ 
 				
 				//send the message to inform monitor: the crawler starts running
 				function(callback){
