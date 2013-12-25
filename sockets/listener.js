@@ -55,12 +55,13 @@ module.exports = function(io){
 
 				//trverse the item metas
 				function(callback){
-					ItemMeta.getAll(function(err, results){
+					//ItemMeta.getAll(function(err, results){
+					ItemMeta.getByBrandTid(20016, function(err, results){
 						if(err){
 							console.log(err);
 						}
 
-						async.eachLimit(results, 2, function(result, callback){
+						async.eachLimit(results, 1, function(result, callback){
 							itemMetaCrawler.start(result.tid, result.brandTid, callback);
 						}, function(err){
 							if(err){

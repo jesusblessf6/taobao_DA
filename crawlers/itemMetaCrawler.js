@@ -63,7 +63,7 @@ exports.start = function(tid, brandTid, outercallback){
 		function(callback){
 			driver.findElement({className : "J_guiGe"}).then(function(specDiv){
 				specDiv.findElements({tagName : 'span'}).then(function(specSpans){
-					async.each(specSpans, function(specSpan, callback){
+					async.eachSeries(specSpans, function(specSpan, callback){
 						var tmpSku = {
 							itemMetaTid : tid, 
 							brandTid : brandTid
@@ -71,21 +71,29 @@ exports.start = function(tid, brandTid, outercallback){
 						specSpan.getAttribute('data-price').then(function(strPrice){
 							tmpSku.refPrice = Number(strPrice);
 						}).then(function(){
-							specSpan.findElement({tagName : 'a'}).then(function(skuLink){
-								skuLink.getAttribute("href").then(function(href){
-									var parts = href.split("&").filter(function(element){
-										return element.indexOf("spec=") >=0;
+
+							specSpan.findElements({tagName : 'a'}).then(function(skuLinks){
+								console.log(skuLinks.length);
+								if(skuLinks.length > 0){
+									var skuLink = skuLinks[0];
+									skuLink.getAttribute("href").then(function(href){
+										var parts = href.split("&").filter(function(element){
+											return element.indexOf("spec=") >=0;
+										});
+										var specIdStr = parts[0].replace("spec=", "");
+										tmpSku.tid = Number(specIdStr);
+									}).then(function(){
+										skuLink.getInnerHtml().then(function(spectitle){
+											tmpSku.title = spectitle;
+										});
 									});
-									var specIdStr = parts[0].replace("spec=", "");
-									tmpSku.tid = Number(specIdStr);
-								}).then(function(){
-									skuLink.getInnerHtml().then(function(spectitle){
-										tmpSku.title = spectitle;
-									});
-								});
+								}
+								
 							});
 						}).then(function(){
+							console.log(tmpSku);
 							var s = new SkuMeta(tmpSku);
+							console.log(s);
 							s.save(function(err, result){
 								if(err){
 									console.log(err);

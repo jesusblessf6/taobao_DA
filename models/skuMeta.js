@@ -18,11 +18,11 @@ SkuMeta.prototype.save = function(callback){
 		tid : this.tid,
 		itemMetaTid : this.itemMetaTid,
 		brandTid : this.brandTid,
-		title : this.title,
+		title : this.title.trim(),
 		refPrice : this.refPrice
 	};
 
-	skuMetaCol.count({tid : sm.tid}, function(err, c){
+	skuMetaCol.count({tid : sm.tid, itemMetaTid : sm.itemMetaTid}, function(err, c){
 		if(err){
 			return callback(err);
 		}
