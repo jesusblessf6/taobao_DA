@@ -6,6 +6,12 @@ function ItemMeta(itemMeta){
 	this.tid = itemMeta.tid;
 	this.comments = itemMeta.comments;
 	this.url = itemMeta.url;
+	this.cate1 = itemMeta.cate1;
+	this.cate2 = itemMeta.cate2;
+	this.cate3 = itemMeta.cate3;
+	this.cate1Id = itemMeta.cate1Id;
+	this.cate2Id = itemMeta.cate2Id;
+	this.cate3Id = itemMeta.cate3Id;
 };
 
 module.exports = ItemMeta;
@@ -17,7 +23,13 @@ ItemMeta.prototype.save = function(callback){
 		brandTid : this.brandTid,
 		tid : this.tid,
 		comments : this.comments,
-		url : this.url
+		url : this.url,
+		cate1 : this.cate1,
+		cate2 : this.cate2,
+		cate3 : this.cate3,
+		cate1Id : this.cate1Id,
+		cate2Id : this.cate2Id,
+		cate3Id : this.cate3Id
 	};
 
 	var itemMetaCol = conn.collection('itemMetas');
@@ -80,4 +92,13 @@ ItemMeta.getAll = function(callback){
 
 		callback(null, results);
 	});
-}
+};
+
+ItemMeta.saveCateInfo = function(tid, cate1, cate2, cate3, cate1Id, cate2Id, cate3Id, callback){
+	conn.collection('itemMetas').update({tid : tid}, {$set : {cate1 : cate1, cate2 : cate2, cate3 : cate3, cate1Id : cate1Id, cate2Id : cate2Id, cate3Id : cate3Id}}, function(err, result){
+		if(err){
+			return callback(err);
+		}
+		callback(null, result);
+	});
+};

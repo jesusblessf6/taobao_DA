@@ -10,6 +10,8 @@ module.exports = function(io){
 	var async = require('async');
 	var Brand = require('../models/brand');
 	var brandDetailCrawler = require('../crawlers/brandDetailCrawler');
+	var itemMetaCrawler = require('../crawlers/itemMetaCrawler');
+	var ItemMeta = require('../models/itemMeta');
 
 	io.sockets.on('connection', function (socket) {
 
@@ -33,15 +35,33 @@ module.exports = function(io){
 				},
 
 				//trverse the brands
+				// function(callback){
+				// 	Brand.getAll(function(err, results){
+				// 		if(err){
+				// 			console.log(err);
+				// 		}
+
+				// 		async.eachLimit(results, 1, function(result, callback){
+				// 			brandDetailCrawler.start(result, callback);
+							
+				// 		}, function(err){
+				// 			if(err){
+				// 				console.log(err);
+				// 			}
+				// 			callback();
+				// 		});
+				// 	});
+				// },
+
+				//trverse the item metas
 				function(callback){
-					Brand.getAll(function(err, results){
+					ItemMeta.getAll(function(err, results){
 						if(err){
 							console.log(err);
 						}
 
-						async.eachLimit(results, 1, function(result, callback){
-							brandDetailCrawler.start(result, callback);
-							
+						async.eachLimit(results, 2, function(result, callback){
+							itemMetaCrawler.start(result.tid, result.brandTid, callback);
 						}, function(err){
 							if(err){
 								console.log(err);
@@ -61,10 +81,6 @@ module.exports = function(io){
 					console.log(err);
 				}
 			});
-			
-			
-			
-			
 
 		});
 
