@@ -59,3 +59,13 @@ Brand.getAll = function(callback){
 		}
 	});
 };
+
+Brand.getAllCount = function(callback){
+	conn.collection('brands').count(function(err, c){
+		if(err){
+			return callback(err);
+		}
+
+		callback(null, c);
+	});
+}

@@ -41,96 +41,100 @@ exports.start = function(brand, outercallback){
 		function(callback){
 			async.eachSeries(pageIndexes, function(pageindex, callback){
 				driver.get(settings.brandDetailPageUrl + brand.tid + "&page=" + pageindex).then(function(){
+					driver.isElementPresent({className : 'choices-item'}).then(function(existed){
+						if(existed){
+							driver.findElement({className : 'choices-item'}).then(function(itemPanel){
+								itemPanel.findElements({tagName : 'li'}).then(function(thumbs){
 
-					driver.findElement({className : 'choices-item'}).then(function(itemPanel){
-						itemPanel.findElements({tagName : 'li'}).then(function(thumbs){
-
-							async.eachLimit(thumbs, 2, 
-								function(thumb, callback){
-									
-									var im = new ItemMeta({
-										brandTid : brand.tid,
-										comments : []
-									});
-									console.log('im: ');
-									console.log(im);
-
-									async.series([
-										function(callback){
-											thumb.findElement({className : 'title'}).then(function(titleDiv){
-												titleDiv.findElement({tagName : 'a'}).then(function(atag){
-													
-													atag.getAttribute('href').then(function(href){
-														im.url = href;
-														console.log(href);
-													});
-
-													atag.getText().then(function(t){
-														im.name = t;
-													});
-												}).then(callback);
+									async.eachLimit(thumbs, 2, 
+										function(thumb, callback){
+											
+											var im = new ItemMeta({
+												brandTid : brand.tid,
+												comments : []
 											});
-										},
+											console.log('im: ');
+											console.log(im);
 
-										function(callback){
-											var linkParts = im.url.split('&');
-											for(var i = 0; i < linkParts.length; i ++){
-												var kvpair = linkParts[i].split('=');
-												if(kvpair[0] == "spuid"){
-													im.tid = kvpair[1];
-													break;
-												}else{
-													continue;
-												}
-											}
-											callback();
-										},
+											async.series([
+												function(callback){
+													thumb.findElement({className : 'title'}).then(function(titleDiv){
+														titleDiv.findElement({tagName : 'a'}).then(function(atag){
+															
+															atag.getAttribute('href').then(function(href){
+																im.url = href;
+																console.log(href);
+															});
 
-										function(callback){
-											thumb.isElementPresent({className : 'comments'}).then(function(present){
-												if(present){
-													thumb.findElement({className : 'comments'}).then(function(commentsDiv){
-														commentsDiv.findElements({tagName : 'a'}).then(function(commentTags){
+															atag.getText().then(function(t){
+																im.name = t;
+															});
+														}).then(callback);
+													});
+												},
 
-															for(var x in commentTags){
-																commentTags[x].getInnerHtml().then(function(commentText){
-																	im.comments.push(commentText);
+												function(callback){
+													var linkParts = im.url.split('&');
+													for(var i = 0; i < linkParts.length; i ++){
+														var kvpair = linkParts[i].split('=');
+														if(kvpair[0] == "spuid"){
+															im.tid = kvpair[1];
+															break;
+														}else{
+															continue;
+														}
+													}
+													callback();
+												},
+
+												function(callback){
+													thumb.isElementPresent({className : 'comments'}).then(function(present){
+														if(present){
+															thumb.findElement({className : 'comments'}).then(function(commentsDiv){
+																commentsDiv.findElements({tagName : 'a'}).then(function(commentTags){
+
+																	for(var x in commentTags){
+																		commentTags[x].getInnerHtml().then(function(commentText){
+																			im.comments.push(commentText);
+																		});
+																	}
 																});
-															}
-														});
-													});												
-												}
-											}).then(callback);
-										}, 
+															});												
+														}
+													}).then(callback);
+												}, 
 
-										function(callback){
-											//var itemmeta = new ItemMeta(im);
-											im.save(function(err, result){
+												function(callback){
+													//var itemmeta = new ItemMeta(im);
+													im.save(function(err, result){
+														if(err){
+															console.log(err);
+														}
+
+														callback();
+													});
+												}
+
+											], function(err){
 												if(err){
 													console.log(err);
 												}
-
 												callback();
 											});
-										}
 
-									], function(err){
-										if(err){
-											console.log(err);
+										}, 
+										function(err){
+											if(err){
+												console.log(err);									
+											}
+											callback();
 										}
-										callback();
-									});
-
-								}, 
-								function(err){
-									if(err){
-										console.log(err);									
-									}
-									callback();
-								}
-							);
-						})
+									);
+								})
+							});
+						}
 					});
+					
 					
 				});
 			}, function(err){

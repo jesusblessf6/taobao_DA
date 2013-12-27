@@ -18,7 +18,7 @@ SkuMeta.prototype.save = function(callback){
 		tid : this.tid,
 		itemMetaTid : this.itemMetaTid,
 		brandTid : this.brandTid,
-		title : this.title.trim(),
+		title : this.title,
 		refPrice : this.refPrice
 	};
 
@@ -67,4 +67,21 @@ SkuMeta.getAll = function(callback){
 };
 
 
+SkuMeta.getAllCount = function(callback){
+	conn.collection('skuMetas').count(function(err, c){
+		if(err){
+			return callback(err);
+		}
+		callback(null, c);
+	});
+};
 
+SkuMeta.getCountByBrand = function(brandTid, callback){
+	conn.collection('skuMetas').count({brandTid : brandTid}, function(err, count){
+		if(err){
+			return callback(err);
+		}
+
+		callback(null, count);
+	});
+};

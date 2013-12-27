@@ -35,28 +35,28 @@ module.exports = function(io){
 				},
 
 				//trverse the brands
-				// function(callback){
-				// 	Brand.getAll(function(err, results){
-				// 		if(err){
-				// 			console.log(err);
-				// 		}
+				function(callback){
+					Brand.getAll(function(err, results){
+						if(err){
+							console.log(err);
+						}
 
-				// 		async.eachLimit(results, 1, function(result, callback){
-				// 			brandDetailCrawler.start(result, callback);
+						async.eachLimit(results, 1, function(result, callback){
+							brandDetailCrawler.start(result, callback);
 							
-				// 		}, function(err){
-				// 			if(err){
-				// 				console.log(err);
-				// 			}
-				// 			callback();
-				// 		});
-				// 	});
-				// },
+						}, function(err){
+							if(err){
+								console.log(err);
+							}
+							callback();
+						});
+					});
+				},
 
 				//trverse the item metas
 				function(callback){
-					//ItemMeta.getAll(function(err, results){
-					ItemMeta.getByBrandTid(20016, function(err, results){
+					ItemMeta.getAll(function(err, results){
+					//ItemMeta.getByBrandTid(20016, function(err, results){
 						if(err){
 							console.log(err);
 						}

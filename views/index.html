@@ -1,4 +1,63 @@
 <% include header.html %>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+
+    <div class="container" style="width:800px">
+    	<div class="caption" style="margin-top:100px; margin-bottom:20px;">
+			<h3>数据分析平台</h3>
+		</div>
+    	<div class="row" style="height:200px; width:800px;">
+    		<div class="col-md-3">
+    			<div class="thumbnail text-center">
+    				<div class="caption text-center">
+    					品牌
+    				</div>
+    				<p><a href="/brandshome" class="btn btn-link">共<%= brandCount %>种</a></p>
+    			</div>
+    		</div>
+    		<div class="col-md-3">
+    			<div class="thumbnail text-center">
+    				<div class="caption text-center">
+    					物料
+    				</div>
+    				<p><a href="/itemmetashome" class="btn btn-link">共<%= itemMetaCount %>种</a></p>
+    			</div>
+    		</div>
+    		<div class="col-md-3">
+    			<div class="thumbnail text-center">
+    				<div class="caption text-center">
+    					SKU
+    				</div>
+    				<p><a href="/skumetashome" class="btn btn-link">共<%= skuMetaCount %>种</a></p>
+    			</div>
+    		</div>
+    		<div class="col-md-3">
+    			<div class="thumbnail text-center">
+    				<div class="caption text-center">
+    					商品
+    				</div>
+    				<p><a href="/skushome" class="btn btn-link">共<%= skuCount %>种</a></p>
+    			</div>
+    		</div>
+    		
+    	</div>
+    	<div class="row" style="height:200px;width:800px;">
+    		<div class="col-md-3 ">
+    			<div class="thumbnail text-center">
+    				<div class="caption text-center">
+    					店铺
+    				</div>
+    				<p><a href="/shopshome" class="btn btn-link">共<%= shopCount %>种</a></p>
+    			</div>
+    		</div>
+    		<div class="col-md-3 ">
+    			<div class="thumbnail text-center">
+    				<div class="caption text-center">
+    					交易
+    				</div>
+    				<p><a href="/shopshome" class="btn btn-link">共<%= tradeCount %>笔</a></p>
+    			</div>
+    		</div>
+    		<div class="col-md-3 "></div>
+    		<div class="col-md-3 "></div>
+    	</div>
+    </div>
  <% include footer.html %>

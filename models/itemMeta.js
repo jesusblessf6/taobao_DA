@@ -102,3 +102,22 @@ ItemMeta.saveCateInfo = function(tid, cate1, cate2, cate3, cate1Id, cate2Id, cat
 		callback(null, result);
 	});
 };
+
+ItemMeta.getAllCount = function(callback){
+	conn.collection('itemMetas').count(function(err, c){
+		if(err){
+			return callback(err);
+		}
+		callback(null, c);
+	});
+};
+
+ItemMeta.getCountByBrand = function(brandTid, callback){
+	conn.collection('itemMetas').count({brandTid : brandTid}, function(err, count){
+		if(err){
+			return callback(err);
+		}
+
+		callback(null, count);
+	});
+};
