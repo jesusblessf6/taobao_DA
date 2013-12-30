@@ -73,15 +73,24 @@
 	</div>
 	<div class="col-md-3" style="margin:10px">
 		<div class="well">
-			<div class="page-header" style="margin-top:10px;"><h4 class="text-muted">爬虫状态</h4></div>
+			<div class="page-header" style="margin-top:10px;"><h4 class="text-muted">爬虫状态及操作</h4></div>
+			<div id="crawlerStatus" style="" class="text-center">
+				<span id="crawlerTitle">全局爬虫</span>
+				<span>: </span>
+				<span class="label label-success">运行中<span class="badge">2</span></span>
+				<p style="margin-top:10px;"><button class="btn btn-sm btn-primary ">运行</button></p>
+			</div>
 		</div>
-		<div class="well">
-			<div class="page-header" style="margin-top:10px;"><h4 class="text-muted">运行中的爬虫</h4></div>
+		
+		<div class="panel panel-info">
+			<div class="panel-heading">运行中的爬虫</div>
 		</div>
+		
 	</div>
-	<div class="col-md-6 text-center well" style="margin:10px; padding: 0">
-		<!-- <textarea disabled="disabled" cols="120" rows="22" style="max-width:800px;" id="logPlace"></textarea>
-		<button class="btn btn-primary" style="margin-top:10px" onclick="clearLog()">清除</button> -->
+	<div class="col-md-6 text-center" style="margin:10px; padding: 0" id="logsPanel">
+		<div class="panel panel-warning">
+			<div class="panel-heading">日志</div>
+		</div>
 	</div>
 </div>
 
