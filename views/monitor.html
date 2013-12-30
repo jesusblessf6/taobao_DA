@@ -3,6 +3,7 @@
 <script type="text/javascript">
 	<!-- websocket handlers -->
 	var socket = io.connect('http://<%= server%>:<%= port%>');
+	
 
 	socket.on('connected', function(data){
 		if(data.status == 'ok'){
@@ -40,6 +41,10 @@
 	function clearLog(){
 		$('#logPlace').val("");
 	}
+
+	function globalCrawlerInfo(){
+		
+	}
 </script>
 
 <div class="container">
@@ -47,18 +52,9 @@
 		<h3>Crawler Monitor</h3>
 	</div>
 	<div class="col-md-2 well" style="margin: 10px">
-		<!-- <div>
-			<table class="table table-condensed table-striped table-hover">
-				<tr class="success">
-					<td style="width:80%; font-size:18px;vertical-align:middle">Global Crawler</td>
-					<td style="width:20%" class="text-right"><button class="btn btn-link" id="startGlobalCrawler" onclick="startGlobalCrawler()">启动</button></td>
-				</tr>
-			</table>
-		</div> -->
-		<!-- <div class="caption">爬虫列表</div> -->
 		<div>
 			<ul class="nav nav-pills nav-stacked">
-				<li><a href="#">全局</a></li>
+				<li><a href="javascript:void(0)" onclick="javascript:globalCrawlerInfo()">全局</a></li>
 				<li><a href="#">交易</a></li>
 				<li><hr/></li>
 				<li><a href="#">品牌主数据</a></li>
@@ -77,7 +73,7 @@
 			<div id="crawlerStatus" style="" class="text-center">
 				<span id="crawlerTitle">全局爬虫</span>
 				<span>: </span>
-				<span class="label label-success">运行中<span class="badge">2</span></span>
+				<span class="label label-success"><span>运行中 </span><span class="badge">2</span></span>
 				<p style="margin-top:10px;"><button class="btn btn-sm btn-primary ">运行</button></p>
 			</div>
 		</div>
