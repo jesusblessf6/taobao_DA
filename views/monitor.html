@@ -42,6 +42,8 @@
 	function globalCrawlerInfo(){
 		window.location.hash = "global";
 		socket.emit("get crawler info", {type : "global"});
+		$('#crawlerStatus').show();
+		$('#crawlerTitle').html("全局爬虫: ");
 	}
 </script>
 
@@ -69,9 +71,8 @@
 		<div class="well">
 			<div class="page-header" style="margin-top:10px;"><h4 class="text-muted">爬虫状态及操作</h4></div>
 			<div id="crawlerStatus" style="" class="text-center">
-				<span id="crawlerTitle">全局爬虫</span>
-				<span>: </span>
-				<span class="label label-success"><span>运行中 </span><span class="badge">2</span></span>
+				<span id="crawlerTitle"></span>
+				<span class="label label-success"><span>运行中 </span><span class="badge" id="runningInstance">2</span></span>
 				<p style="margin-top:10px;"><button class="btn btn-sm btn-primary ">运行</button></p>
 			</div>
 		</div>
@@ -88,4 +89,9 @@
 	</div>
 </div>
 
+<script type="text/javascript">
+	$('#crawlerStatus').hide();
+</script>
+
 <% include footer.html %>
+
