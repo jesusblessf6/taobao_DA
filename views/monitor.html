@@ -2,8 +2,7 @@
 
 <script type="text/javascript">
 	<!-- websocket handlers -->
-	var socket = io.connect('http://<%= server%>:<%= port%>');
-	
+	var socket = io.connect('http://<%= server%>:<%= port%>');	
 
 	socket.on('connected', function(data){
 		if(data.status == 'ok'){
@@ -20,8 +19,6 @@
 			$('#startGlobalCrawler').html('启动');
 			$('#startGlobalCrawler').prop('disabled', false);
 		}
-
-
 	});
 
 
@@ -43,7 +40,8 @@
 	}
 
 	function globalCrawlerInfo(){
-		
+		window.location.hash = "global";
+		socket.emit("get crawler info", {type : "global"});
 	}
 </script>
 
