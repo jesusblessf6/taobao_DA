@@ -45,3 +45,21 @@ Crawling.prototype.save = function(callback){
 	});
 };
 
+Crawling.getRunningByType = function(crawlerType, callback){
+	conn.collection('crawlings').find({type : crawlerType, status : 'running'}).toArray(function(err, results){
+		if(err){
+			return callback(err);
+		}
+		callback(null, results);
+	});
+};
+
+Crawling.resetCrawling = function(callback){
+	conn.collection('crawlings').update({status : 'running'}, {$set : {status : 'not running', finishStatus : 'break'}}, function(err, result){
+		if(err){
+			return callback(err);
+		}
+		callback(null, result);
+	});
+	console.log("reset the crawling");
+}

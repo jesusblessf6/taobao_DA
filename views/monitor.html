@@ -21,6 +21,20 @@
 		}
 	});
 
+	socket.on('get crawler info feedback', function(data){
+		var ct = window.location.hash;
+		if(data.type == ct){
+			$('#loadingIcon').hide();
+			$('#crawlerStatus').show();
+			var c = data.runningCount;
+			switch(data.type){
+				case "global":
+					
+					break;
+			}
+		}
+	});
+
 
 </script>
 
@@ -42,8 +56,9 @@
 	function globalCrawlerInfo(){
 		window.location.hash = "global";
 		socket.emit("get crawler info", {type : "global"});
-		$('#crawlerStatus').show();
-		$('#crawlerTitle').html("全局爬虫: ");
+		//$('#crawlerStatus').show();
+		//$('#crawlerTitle').html("全局爬虫: ");
+		$('#loadingIcon').show();
 	}
 </script>
 
@@ -72,8 +87,9 @@
 		<div class="panel panel-success">
 			<div class="panel-heading">爬虫状态及操作</div>
 			<div class="panel-body text-center" style="height: 105px">
+				<img src="/images/loading6.gif" alt="" style="margin-top:20px" id="loadingIcon">
 				<div class="text-center" id="crawlerStatus">
-					
+
 				</div>
 			</div>
 		</div>
@@ -96,6 +112,7 @@
 
 <script type="text/javascript">
 	$('#crawlerStatus').hide();
+	$('#loadingIcon').hide();
 </script>
 
 <% include footer.html %>

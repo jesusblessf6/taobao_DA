@@ -11,6 +11,8 @@ var async = require('async');
 
 module.exports = function(app){
 
+	
+
 	app.get('/', function(req, res){
 		res.render('monitor', {title : 'Crawler Monitor', server : sys_settings.server, port : sys_settings.port});
 	});
