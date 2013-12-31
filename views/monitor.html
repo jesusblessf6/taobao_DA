@@ -68,23 +68,28 @@
 		</div>
 	</div>
 	<div class="col-md-3" style="margin:10px">
-		<div class="well">
-			<div class="page-header" style="margin-top:10px;"><h4 class="text-muted">爬虫状态及操作</h4></div>
-			<div id="crawlerStatus" class="text-center">
-				<span id="crawlerTitle"></span>
-				<span class="label label-success"><span>运行中 </span><span class="badge" id="runningInstance">2</span></span>
-				<p style="margin-top:15px;"><button class="btn btn-sm btn-primary ">运行</button></p>
+
+		<div class="panel panel-success">
+			<div class="panel-heading">爬虫状态及操作</div>
+			<div class="panel-body text-center" style="height: 105px">
+				<div class="text-center" id="crawlerStatus">
+					
+				</div>
 			</div>
 		</div>
 		
 		<div class="panel panel-info">
 			<div class="panel-heading">运行中的爬虫</div>
+			<div class="panel-body" style="height: 250px; overflow:auto"></div>
 		</div>
 		
 	</div>
 	<div class="col-md-6 text-center" style="margin:10px; padding: 0" id="logsPanel">
 		<div class="panel panel-warning">
 			<div class="panel-heading">日志</div>
+			<div class="panel-body" style="overflow:auto; height: 450px">
+
+			</div>
 		</div>
 	</div>
 </div>
